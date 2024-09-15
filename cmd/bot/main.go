@@ -13,11 +13,8 @@ import (
 )
 
 func main() {
-
 	apiToken := flag.String("api_token", "", "Telegram bot token")
-
 	flag.Parse()
-
 	if *apiToken == "" {
 		log.Fatal("API token is required. Pass it with --api_token flag.")
 	}
