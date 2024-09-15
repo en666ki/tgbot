@@ -6,7 +6,8 @@ import (
 	"net"
 
 	"github.com/en666ki/tgbot/api/gateway"
-	"github.com/en666ki/tgbot/internal/bot"
+	"github.com/en666ki/tgbot/internal/bot_gateway"
+	"github.com/en666ki/tgbot/internal/client"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
@@ -23,7 +24,7 @@ func main() {
 
 	grpcClient, err := runGrpcClient()
 
-	telegramBot, err := bot.NewTelegramBot(*apiToken, grpcClient)
+	telegramBot, err := client.NewTelegramBot(*apiToken, grpcClient)
 	if err != nil {
 		log.Fatalf("Failed to start Telegram bot: %v", err)
 	}
@@ -38,7 +39,7 @@ func runGrpcServer() error {
 	}
 
 	grpcServer := grpc.NewServer()
-	gatewayService := bot.NewGatewayService()
+	gatewayService := bot_gateway.NewGatewayService()
 	gateway.RegisterGatewayServiceServer(grpcServer, gatewayService)
 	reflection.Register(grpcServer)
 

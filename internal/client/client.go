@@ -1,7 +1,8 @@
-package bot
+package client
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/en666ki/tgbot/api/gateway"
@@ -45,10 +46,14 @@ func (tb *TelegramBot) Start() {
 }
 
 func (tb *TelegramBot) handleStartCommand(msg *tgbotapi.Message) {
-	userID := msg.From.UserName
 	req := &gateway.StartRequest{
-		UserId: userID,
+		UserId:    msg.From.ID,
+		UserName:  msg.From.UserName,
+		UserFname: msg.From.FirstName,
+		UserSname: msg.From.LastName,
 	}
+
+	fmt.Println(req)
 
 	// Отправляем gRPC запрос
 	resp, err := tb.grpcClient.Start(context.Background(), req)
@@ -58,6 +63,9 @@ func (tb *TelegramBot) handleStartCommand(msg *tgbotapi.Message) {
 		return
 	}
 
+	response := tgbotapi.NewMessage(msg.Chat.ID, resp.Message)
+	response.ParseMode = "HTML"
+
 	// Ответ пользователю
-	tb.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, resp.Message))
+	tb.bot.Send(response)
 }

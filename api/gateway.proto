@@ -10,7 +10,10 @@ service GatewayService {
 }
 
 message StartRequest {
-    string user_id = 1;  // ID пользователя
+    int64 user_id = 1;  // ID пользователя
+    string user_name = 2; // 
+    string user_fname = 3;
+    string user_sname = 4;
 }
 
 message StartResponse {

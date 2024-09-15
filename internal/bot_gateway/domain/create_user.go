@@ -1,6 +1,8 @@
 package domain
 
 type CreateUserCommand struct {
-	UserID   string
+	UserID   int64
 	Username string
+	UserFname string
+	UserSname string
 }
