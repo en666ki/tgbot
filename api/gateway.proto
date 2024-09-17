@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package gateway;
+
+option go_package = "api/gateway";
+
+service GatewayService {
+    // gRPC метод для команды /start
+    rpc Start(StartRequest) returns (StartResponse);
+}
+
+message StartRequest {
+    int64 user_id = 1;  // ID пользователя
+    string user_name = 2; // 
+    string user_fname = 3;
+    string user_sname = 4;
+}
+
+message StartResponse {
+    string message = 1;  // Ответ бота
+}
